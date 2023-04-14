@@ -7,27 +7,13 @@ In-Progress:
 - Book Summary
 - More Book Information:
     - Publish Date/Location etc.
+- Need to find a website that is easier to scrape
+    - Now that I have 2 scrapes, very slow
 (Both require new Req and BS)
-- Potential Path:
-    https://stackoverflow.com/questions/40629457/scrape-multiple-urls-using-beautiful-soup
-    for url in urls
-
-- Reformatting Results
-    - Current Format is 2 Arrays
-        [links] and [titles]
-    - Use 2D array:
-        [Title][Link]
-    - Add all links and Titles to 1 Array and then split:
-        ['Title', 'Link', 'Title', 'Link']
-        - Make this 2D?
-        [
-            [Title, Link]
-            [Title, Link]
-        ]
-    - Final Result: 
+   
+   - Final Result: 
         - Get rid of 2D array and just add to the CSV every loop
         - May create issues when trying to do 2 loops
-
 
     - Got results for ISBN
 """
@@ -65,36 +51,6 @@ def book_data(soup):
     result_1 = data_str.split("\n")
     return (result_1)
 
-
-def write_csv(items, path):
-    with open(path, 'w') as fp:
-        if len(items) == 0:
-            return
-
-        headers = list(items[0].keys())
-        fp.write(','.join(headers) + '\n')
-
-        for item in items:
-            values = []
-            for header in headers:
-                values.append(str(item.get(header, "")))
-            fp.write(','.join(values) + '\n')
-
-
-def read_csv(path):
-    with open(path, 'r') as fp:
-        fp = fp.read()
-    return fp
-
-
-def create_list():
-    return
-
-
-def deep_data(url):
-    return
-
-
 if __name__ == "__main__":
 
     url = "https://time.com/collection/100-best-fantasy-books/"
@@ -115,10 +71,8 @@ if __name__ == "__main__":
             link = book.find('a').get('href')
             info = book.find('h3', class_="section-list__item-headline").text.strip()
 
-            #print(title)
-            #print(link)
             info = info.rsplit(' by ', 1)
-            #print(info)
+
             title = info[0]
             if j != 0 :
                 
@@ -134,10 +88,7 @@ if __name__ == "__main__":
             author = []
             if  len(info) == 2:
                 author = info[1]
-                #book_array[i][1] = author
 
-            #book_array[i][0] = title
-            #book_array[i][2] = link
             holder = [title, author, link, isbn]
 
             writer.writerow(holder)
